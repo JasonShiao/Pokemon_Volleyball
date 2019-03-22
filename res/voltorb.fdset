@@ -1,0 +1,148 @@
+voltorb.png
+animations: 8
+face_left
+frames: 4
+frame
+clip: 0 200 100 100
+offset: 50 50
+duration: 0.8
+index: 0
+frame
+clip: 100 200 100 100
+offset: 50 55
+duration: 0.8
+index: 1
+frame
+clip: 200 200 100 100
+offset: 50 50
+duration: 0.8
+index: 2
+frame
+clip: 300 200 100 100
+offset: 50 48
+duration: 0.8
+index: 3
+face_right
+frames: 4
+frame
+clip: 0 300 100 100
+offset: 50 50
+duration: 0.8
+index: 0
+frame
+clip: 100 300 100 100
+offset: 50 55
+duration: 0.8
+index: 1
+frame
+clip: 200 300 100 100
+offset: 50 50
+duration: 0.8
+index: 2
+frame
+clip: 300 300 100 100
+offset: 50 48
+duration: 0.8
+index: 3
+move_left
+frames: 4
+frame
+clip: 0 200 100 100
+offset: 50 50
+duration: 0.8
+index: 0
+frame
+clip: 100 200 100 100
+offset: 50 55
+duration: 0.8
+index: 1
+frame
+clip: 200 200 100 100
+offset: 50 50
+duration: 0.8
+index: 2
+frame
+clip: 300 200 100 100
+offset: 50 48
+duration: 0.8
+index: 3
+move_right
+frames: 4
+frame
+clip: 0 300 100 100
+offset: 50 50
+duration: 0.8
+index: 0
+frame
+clip: 100 300 100 100
+offset: 50 55
+duration: 0.8
+index: 1
+frame
+clip: 200 300 100 100
+offset: 50 50
+duration: 0.8
+index: 2
+frame
+clip: 300 300 100 100
+offset: 50 48
+duration: 0.8
+index: 3
+jump_left
+frames: 4
+frame
+clip: 0 200 100 100
+offset: 50 50
+duration: 0.8
+index: 0
+frame
+clip: 100 200 100 100
+offset: 50 55
+duration: 0.8
+index: 1
+frame
+clip: 200 200 100 100
+offset: 50 50
+duration: 0.8
+index: 2
+frame
+clip: 300 200 100 100
+offset: 50 48
+duration: 0.8
+index: 3
+jump_right
+frames: 4
+frame
+clip: 0 300 100 100
+offset: 50 50
+duration: 0.8
+index: 0
+frame
+clip: 100 300 100 100
+offset: 50 55
+duration: 0.8
+index: 1
+frame
+clip: 200 300 100 100
+offset: 50 50
+duration: 0.8
+index: 2
+frame
+clip: 300 300 100 100
+offset: 50 48
+duration: 0.8
+index: 3
+win
+frames: 1
+frame
+clip: 0 200 100 100
+offset: 50 50
+duration: 0.8
+index: 0
+lose
+frames: 1
+frame
+clip: 0 200 100 100
+offset: 50 50
+duration: 0.8
+index: 0
