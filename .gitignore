@@ -1,0 +1,6 @@
+# Unused file
+.DS_Store
+
+# Not ready files
+game.h
+game.cpp
