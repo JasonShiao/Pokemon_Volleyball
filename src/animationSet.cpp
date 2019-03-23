@@ -6,6 +6,12 @@
 
 using namespace std;
 
+AnimationSet::AnimationSet() {
+    whiteSpriteSheet = NULL;
+    spriteSheet = NULL;
+
+}
+
 AnimationSet::~AnimationSet() {
     cleanup(spriteSheet);
     if (whiteSpriteSheet != NULL)

@@ -15,9 +15,10 @@ class AnimationSet {
 public:
     string imageName; // spriteSheet image
     SDL_Texture *spriteSheet;
-    SDL_Texture *whiteSpriteSheet = NULL; // Show if spriteSheet is damaged
+    SDL_Texture *whiteSpriteSheet; // Show if spriteSheet is damaged
     list<Animation> animations;
 
+    AnimationSet();
     ~AnimationSet();
 
     Animation* getAnimation(string name);

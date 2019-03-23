@@ -20,6 +20,7 @@ public:
 
 
     Wall(AnimationSet *animSet, int x, int y, int w, int h);
+    virtual ~Wall();
 
     void draw(); //overriding entities draw
     void updateMovement();

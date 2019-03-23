@@ -31,6 +31,11 @@ Wall::Wall(AnimationSet *animSet, int x, int y, int w, int h){
 
 }
 
+Wall::~Wall()
+{
+	;
+}
+
 void Wall::draw(){
 	//if (currentFrame != NULL && active){
 	//	currentFrame->Draw(animSet->spriteSheet, x, y);

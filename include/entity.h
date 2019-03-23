@@ -11,7 +11,6 @@ using namespace std;
 class Entity {
 public:
     // reference constants
-    static const int DIR_LEFT, DIR_RIGHT;
 
     /* Not change once assign */
     string type; // type of entity
@@ -44,6 +43,9 @@ public:
     Animation *currentAnim; //current animation the entity is using
     Frame *currentFrame; //the current frame in the above animation the entity using
     float frameTimer; //helps animate frame to frame
+
+    Entity();
+    virtual ~Entity();
 
     //VIRTUAL FUNCTIONS
 	virtual void update();

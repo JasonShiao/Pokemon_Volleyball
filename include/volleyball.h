@@ -19,21 +19,29 @@ public:
     SDL_Point boundary_max, boundary_min;
     float default_x, default_y; // reset (default) position
 
-    Entity* last_collision = NULL;
+    Entity* last_collision;
+
 
     Volleyball(AnimationSet *animSet, float init_pos_x, float init_pos_y);
+    virtual ~Volleyball();
 
+    /* General method from Parent class */
     void draw(); //overriding entities draw
     void update();
     void move();
     void updateMovement();
-    void updateCollision();
-
-    void resetPosition();
-    void resetSpeed();
 
     void changeAnimation(int newState, bool resetFrameToBeginning);
     void updateAnimation();
+
+
+    /* Specific to this class */
+    void updateCollision();
+
+    void reset();
+    void resetPosition(float x, float y);
+
+    bool isLanding();
 
 };
 

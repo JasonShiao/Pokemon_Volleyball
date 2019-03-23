@@ -104,8 +104,8 @@ int main() {
     volleyballAnimSet->loadAnimationSet("volleyball.fdset", dataGroupTypes);
 
     /* Entity instances */
-    Voltorb *voltorb_1 = new Voltorb(voltorbAnimSet, Entity::DIR_LEFT);
-    Voltorb *voltorb_2 = new Voltorb(voltorbAnimSet, Entity::DIR_RIGHT);
+    Voltorb *voltorb_1 = new Voltorb(voltorbAnimSet, Voltorb::DIR_LEFT);
+    Voltorb *voltorb_2 = new Voltorb(voltorbAnimSet, Voltorb::DIR_RIGHT);
 
     Volleyball *volleyball = new Volleyball(volleyballAnimSet, 150, 50);
 
@@ -126,29 +126,30 @@ int main() {
     quit = false;
 
 
-    //while(!quit){ // Quit the game, break this loop
+    while(!quit){ // Quit the game, break this loop
 
         // ======= Menu =======
         // ====================
         // Menu();
 
         // a new set
-        //voltorb_1->resetPoint();
-        //voltorb_2->resetPoint();
+        voltorb_1->resetPoint();
+        voltorb_2->resetPoint();
 
+        bool AnyOneWon = false;
 
-        //while(!quit){ // If a set (game) is finished, break this loop
+        while(!quit){ // If a set (game) is finished, break this loop
 
             //cout << "Check point 0" << endl;
 
-            //voltorb_1->resetPosition();
-            //voltorb_2->resetPosition();
-            //volleyball->resetPosition();
-            //volleyball->resetSpeed();
+            voltorb_1->resetPosition();
+            voltorb_2->resetPosition();
+            volleyball->reset();
 
-            //SDL_Delay(2000); // Delay 2000 ms
-            //TimeController::timeController.reset();
+            SDL_Delay(1500); // Delay 2000 ms
+            TimeController::timeController.reset();
 
+            bool AnyOneScored = false;
             // a new point
 
             while(!quit){ // If a point is finished, break this loop
@@ -186,38 +187,40 @@ int main() {
 
 
                 // Determine whether someone wins the point and break the while loop
-                if(volleyball->y >= volleyball->boundary_max.y) {
-                    if(volleyball->x >= volleyball->boundary_max.y/2) {
-                        voltorb_1->points++;
-                        break;
-                    } else if(volleyball->x < volleyball->boundary_max.y/2) {
-                        voltorb_2->points++;
-                        break;
-                    }else {
-                        // should never reach here
+                if(volleyball->isLanding()) {
+                    for (list<Voltorb*>::iterator voltorb = Voltorb::voltorbs.begin(); voltorb != Voltorb::voltorbs.end(); voltorb++)
+                    {
+                        if(volleyball->x > (*voltorb)->getScoringArea_Left() && volleyball->x < (*voltorb)->getScoringArea_Right())
+                        {
+                            (*voltorb)->points++;
+                            AnyOneScored = true;
+                        }
                     }
+
+                    if(AnyOneScored == true)
+                        break;
                 }
 
             }
 
             // Determine whether someone wins the set and break the while loop
-            /*cout << "Player one: " <<  voltorb_1->points << " | " \
-                 << "Player two: " <<  voltorb_2->points << endl;
+            for (list<Voltorb*>::iterator voltorb = Voltorb::voltorbs.begin(); voltorb != Voltorb::voltorbs.end(); voltorb++)
+            {
+                cout << "Player " << (*voltorb)->index + 1 << " : " <<  (*voltorb)->points << endl;
+                if ((*voltorb)->points >= 15)
+                {
+                    cout << "====== Player " << (*voltorb)->index << " wins! =====" << endl;
+                    AnyOneWon = true;
+                }
+            }
 
-            if(voltorb_1->points >= 15) {
-                cout << "Player 1 wins!" << endl;
-                //break;
-            } else if(voltorb_2->points >= 15) {
-                cout << "Player 1 wins!" << endl;
-                //break;
-            } else{
-
-            }*/
+            if(AnyOneWon == true)
+                break;
             // Winner/Loser animation
 
-        //}
+        }
 
-    //}
+    }
 
 
 
@@ -225,10 +228,14 @@ int main() {
     delete voltorbAnimSet;
     delete volleyballAnimSet;
 
-    delete voltorb_1;
-    delete voltorb_2;
-    delete volleyball;
-    delete middle_net;
+    for (list<Entity*>::iterator entity = Entity::entities.begin(); entity != Entity::entities.end(); entity++)
+    {
+        delete *entity;
+        //delete voltorb_1;
+        //delete voltorb_2;
+        //delete volleyball;
+        //delete middle_net;
+    }
 
 
     cleanup(Globals::renderer);

@@ -21,10 +21,13 @@ const int Voltorb::VOLTORB_STATE_JUMP = 2;
 const int Voltorb::VOLTORB_STATE_WIN = 4;
 const int Voltorb::VOLTORB_STATE_LOSE = 5;
 
+const int Voltorb::DIR_LEFT = 0, Voltorb::DIR_RIGHT= 1;
+
 const float Voltorb::GRAVITY = 720;
 
 int Voltorb::total_voltorb = 0; // initial no voltorb object
 
+list<Voltorb*> Voltorb::voltorbs;
 
 /****************************************************************
  *                      Method Definition                       *
@@ -61,6 +64,14 @@ Voltorb::Voltorb(AnimationSet *animSet, int direction){
 
 		x = boundary_max.x;
 		y = boundary_max.y;
+
+		scoring_area.x = 0;
+		scoring_area.y = Globals::ScreenHeight - 50;
+		scoring_area.w = Globals::ScreenWidth / 2;
+		scoring_area.h = 50;
+
+		voltorbs.push_back(this);
+
 	} else if (index == 1) {
 		setKeyConfig(SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D);
 		boundary_max.x = Globals::ScreenWidth / 2 - 50;
@@ -74,11 +85,19 @@ Voltorb::Voltorb(AnimationSet *animSet, int direction){
 
 		x = boundary_min.x;
 		y = boundary_max.y;
+
+		scoring_area.x = Globals::ScreenWidth / 2;
+		scoring_area.y = Globals::ScreenHeight - 50;
+		scoring_area.w = Globals::ScreenWidth / 2;
+		scoring_area.h = 50;
+
+		voltorbs.push_back(this);
 	} else {
 		// Config not used now
 		setKeyConfig(SDL_SCANCODE_I, SDL_SCANCODE_K, SDL_SCANCODE_J, SDL_SCANCODE_L);
 		boundary_max.x = Globals::ScreenWidth - 50;
 		boundary_max.y = Globals::ScreenHeight - 50;
+
 		boundary_min.x = 50;
 		boundary_min.y = 50;
 
@@ -87,22 +106,31 @@ Voltorb::Voltorb(AnimationSet *animSet, int direction){
 
 		x = Globals::ScreenWidth / 2;
 		y = boundary_max.y;
+
+		scoring_area.x = 0;
+		scoring_area.y = Globals::ScreenHeight - 50;
+		scoring_area.w = Globals::ScreenWidth;
+		scoring_area.h = 50;
+
+		voltorbs.push_back(this);
 	}
 
 	changeAnimation(VOLTORB_STATE_IDLE, true);
 
 }
 
-void Voltorb::setKeyConfig (SDL_Scancode up, SDL_Scancode down, SDL_Scancode left, SDL_Scancode right){
-	this->_up = up;
-	this->_down = down;
-	this->_left = left;
-	this->_right = right;
+Voltorb::~Voltorb()
+{
+	;
 }
+
+
+/****************************************************************
+ *                  Method from Parent Class                    *
+ ****************************************************************/
 
 void Voltorb::draw(){
 	if (currentFrame != NULL && active){
-		cout << "current Frame not NULL" << endl;
 		currentFrame->Draw(animSet->spriteSheet, x, y);
 	}
 	//draw collsionBox
@@ -190,35 +218,26 @@ void Voltorb::update(){
 
 }
 
-void Voltorb::resetPosition() {
-	x = default_x;
-	y = default_y;
-}
-
-void Voltorb::resetPoint() {
-	points = 0;
-}
-
 
 void Voltorb::changeAnimation(int newState, bool resetFrameToBeginning){
 	state = newState;
 
 	if (state == VOLTORB_STATE_IDLE){
-		if (direction == Entity::DIR_LEFT)
+		if (direction == Voltorb::DIR_LEFT)
 			currentAnim = animSet->getAnimation(VOLTORB_ANIM_IDLE_LEFT);
-		else if (direction == Entity::DIR_RIGHT)
+		else if (direction == Voltorb::DIR_RIGHT)
 			currentAnim = animSet->getAnimation(VOLTORB_ANIM_IDLE_RIGHT);
 	}
     else if (state == VOLTORB_STATE_MOVE){
-        if (direction == Entity::DIR_LEFT)
+        if (direction == Voltorb::DIR_LEFT)
             currentAnim = animSet->getAnimation(VOLTORB_ANIM_MOVE_LEFT);
-        else if (direction == Entity::DIR_RIGHT)
+        else if (direction == Voltorb::DIR_RIGHT)
             currentAnim = animSet->getAnimation(VOLTORB_ANIM_MOVE_RIGHT);
     }
 	else if (state == VOLTORB_STATE_JUMP){
-		if (direction == Entity::DIR_LEFT)
+		if (direction == Voltorb::DIR_LEFT)
 			currentAnim = animSet->getAnimation(VOLTORB_ANIM_JUMP_LEFT);
-		else if (direction == Entity::DIR_RIGHT)
+		else if (direction == Voltorb::DIR_RIGHT)
 			currentAnim = animSet->getAnimation(VOLTORB_ANIM_JUMP_RIGHT);
 	}
 	/*else if (state == VOLTORB_STATE_SMASH){
@@ -252,4 +271,46 @@ void Voltorb::updateAnimation(){ // rolling frames in an animation
 		currentFrame = currentAnim->getNextFrame(currentFrame);
 		frameTimer = 0;
 	}
+}
+
+
+/****************************************************************
+ *              Specific Method for this Class                  *
+ ****************************************************************/
+
+ void Voltorb::setKeyConfig (SDL_Scancode up, SDL_Scancode down, SDL_Scancode left, SDL_Scancode right){
+ 	this->_up = up;
+ 	this->_down = down;
+ 	this->_left = left;
+ 	this->_right = right;
+ }
+
+void Voltorb::resetPosition() {
+	x = default_x;
+	y = default_y;
+}
+
+void Voltorb::resetPoint() {
+	points = 0;
+}
+
+
+float Voltorb::getScoringArea_Left()
+{
+	return scoring_area.x;
+}
+
+float Voltorb::getScoringArea_Right()
+{
+    return scoring_area.x + scoring_area.w;
+}
+
+float Voltorb::getScoringArea_Top()
+{
+	return scoring_area.y;
+}
+
+float Voltorb::getScoringArea_Bottom()
+{
+    return scoring_area.y + scoring_area.h;
 }

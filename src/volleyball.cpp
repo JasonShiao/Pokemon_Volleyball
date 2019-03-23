@@ -28,7 +28,8 @@ const float Volleyball::GRAVITY = 300;
  	this->animSet = animSet;
  	type = "volleyball";
     this->solid = true;
-	this->active = true; 
+	this->active = true;
+    last_collision = NULL;
 
  	//setup default voltorb values
 
@@ -50,9 +51,18 @@ const float Volleyball::GRAVITY = 300;
 
  }
 
+Volleyball::~Volleyball()
+{
+    ;
+}
+
+
+
+/****************************************************************
+ *                  Method from Parent Class                    *
+ ****************************************************************/
  void Volleyball::draw(){
  	if (this->currentFrame != NULL && active){
-        cout << "Draw" << endl;
  		this->currentFrame->Draw(animSet->spriteSheet, x, y);
  	}
  	//draw collsionBox
@@ -170,23 +180,59 @@ void Volleyball::move(){
     x += (2*moveSpeed_x + Volleyball::GRAVITY * TimeController::timeController.dT) * TimeController::timeController.dT / 2;
 
 
- }
+}
 
- void Volleyball::update(){
+void Volleyball::update(){
 
- 	/*
- 		inertial movement changes (user input, collision, gravity),
- 		also change animation here
- 	*/
- 	updateMovement();
+    /*
+    	inertial movement changes (user input, collision, gravity),
+    	also change animation here
+    */
+    updateMovement();
 
- 	move(); // inertial movement
+    move(); // inertial movement
 
     updateCollision(); //
 
- 	updateAnimation();
+    updateAnimation();
 
- }
+}
+
+
+void Volleyball::changeAnimation(int newState, bool resetFrameToBeginning){
+  	state = newState;
+
+    if (state == VOLLEYBALL_STATE_NORMAL){
+  		currentAnim = animSet->getAnimation(VOLLEYBALL_ANIM_NORMAL);
+  	}
+  	else if (state == VOLLEYBALL_STATE_SMASH){
+  		currentAnim = animSet->getAnimation(VOLLEYBALL_ANIM_SMASH);
+  	}
+
+    if (resetFrameToBeginning)
+  		currentFrame = currentAnim->getFrame(0);
+    else
+  		currentFrame = currentAnim->getFrame(currentFrame->frameNumber);
+}
+
+void Volleyball::updateAnimation(){ // rolling frames in an animation
+  	if (currentFrame == NULL || currentAnim == NULL)
+  		return; //cant do much with animations without pointers pointing to them :S
+
+
+  	frameTimer += TimeController::timeController.dT;
+  	//time to change frames :D
+  	if (frameTimer >= currentFrame->duration)
+  	{
+  		currentFrame = currentAnim->getNextFrame(currentFrame);
+  		frameTimer = 0;
+  	}
+}
+
+
+/****************************************************************
+ *              Specific Method for this Class                  *
+ ****************************************************************/
 
 void Volleyball::updateCollision() {
 
@@ -200,44 +246,30 @@ void Volleyball::updateCollision() {
 }
 
 
-void Volleyball::resetPosition()
-{
-	x = default_x;
-	y = default_y;
-}
-
-void Volleyball::resetSpeed()
+void Volleyball::reset()
 {
     moveSpeed_x = 0;
     moveSpeed_y = 0;
+
+	x = this->default_x;
+	y = this->default_y;
+
+    last_collision = NULL;
+
+    // reset State
 }
 
-void Volleyball::changeAnimation(int newState, bool resetFrameToBeginning){
- 	state = newState;
 
-    if (state == VOLLEYBALL_STATE_NORMAL){
- 		currentAnim = animSet->getAnimation(VOLLEYBALL_ANIM_NORMAL);
- 	}
- 	else if (state == VOLLEYBALL_STATE_SMASH){
- 		currentAnim = animSet->getAnimation(VOLLEYBALL_ANIM_SMASH);
- 	}
+void Volleyball::resetPosition(float x, float y)
+{
+    default_x = x;
+    default_y = y;
 
- 	if (resetFrameToBeginning)
- 		currentFrame = currentAnim->getFrame(0);
- 	else
- 		currentFrame = currentAnim->getFrame(currentFrame->frameNumber);
- }
+    this->x = default_x;
+    this->y = default_y;
+}
 
- void Volleyball::updateAnimation(){ // rolling frames in an animation
- 	if (currentFrame == NULL || currentAnim == NULL)
- 		return; //cant do much with animations without pointers pointing to them :S
-
-
- 	frameTimer += TimeController::timeController.dT;
- 	//time to change frames :D
- 	if (frameTimer >= currentFrame->duration)
- 	{
- 		currentFrame = currentAnim->getNextFrame(currentFrame);
- 		frameTimer = 0;
- 	}
- }
+bool Volleyball::isLanding()
+{
+    return (y >= boundary_max.y);
+}
