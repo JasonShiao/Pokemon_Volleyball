@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+
 #include <SDL2/SDL.h>
 #include "cleanup.h"
 #include "res_path.h"
@@ -61,6 +63,13 @@ int main() {
         return 1;
     }
 
+    TTF_Font * score_panel_font = TTF_OpenFont("./res/open_sans/OpenSans-ExtraBold.ttf", 40);
+    if(score_panel_font == NULL)
+    {
+        cout << "Font not opened!" << endl;
+        return 1;
+    }
+
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
         SDL_Quit();
         cout << "Mixer did not initialize" << endl;
@@ -85,7 +94,6 @@ int main() {
 
 	dataGroupTypes.push_back(colBoxType);
 
-    cout << "Checkt point 2" << endl;
     //list<DataGroupType> dataGroupTypes2;
 
     //DataGroupType colBoxType2;
@@ -116,6 +124,14 @@ int main() {
     Entity::entities.push_back(voltorb_2);
     Entity::entities.push_back(volleyball);
     Entity::entities.push_back(middle_net);
+
+
+    /*******  Score Panel  *******/
+    SDL_Color score_panel_color = { 240, 100, 100 };
+
+    int texW = 0;
+    int texH = 0;
+
 
 
     /* Game loop */
@@ -152,6 +168,14 @@ int main() {
             bool AnyOneScored = false;
             // a new point
 
+            /* Score Panel */
+            string score_str = to_string(voltorb_2->points) + "   " + to_string(voltorb_1->points);
+            SDL_Surface * score_surface = TTF_RenderText_Solid(score_panel_font, score_str.c_str(), score_panel_color);
+            SDL_Texture * score_texture = SDL_CreateTextureFromSurface(Globals::renderer, score_surface);
+            SDL_QueryTexture(score_texture, NULL, NULL, &texW, &texH);
+            SDL_Rect dstrect = { 280, 0, texW, texH };
+
+
             while(!quit){ // If a point is finished, break this loop
 
                 while(SDL_PollEvent(&e)){
@@ -175,9 +199,12 @@ int main() {
                 SDL_RenderClear(Globals::renderer);
 
                 renderTexture(texture, Globals::renderer, 0, 0); // background image
+
                 voltorb_1->draw();
                 voltorb_2->draw();
                 volleyball->draw();
+
+                SDL_RenderCopy(Globals::renderer, score_texture, NULL, &dstrect);
 
                 SDL_RenderPresent(Globals::renderer);
                     //screen_changed = false;
@@ -202,6 +229,10 @@ int main() {
                 }
 
             }
+
+            /* Clear Score Texture */
+            SDL_DestroyTexture(score_texture);
+            SDL_FreeSurface(score_surface);
 
             // Determine whether someone wins the set and break the while loop
             for (list<Voltorb*>::iterator voltorb = Voltorb::voltorbs.begin(); voltorb != Voltorb::voltorbs.end(); voltorb++)
@@ -242,7 +273,7 @@ int main() {
     cleanup(window);
     cleanup(texture);
 
-
+    TTF_CloseFont(score_panel_font);
     /***************************************************************************
     *                          END OF USER CODE                               *
     ***************************************************************************/
