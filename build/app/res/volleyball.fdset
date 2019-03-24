@@ -1,16 +1,71 @@
-voltorb.png
+pokemon_ball_3.png
 animations: 2
 normal
-frames: 1
+frames: 12
 frame
-clip: 0 200 100 100
-offset: 50 50
-duration: 10.0
+clip: 0 0 80 80
+offset: 40 40
+duration: 0.1
 index: 0
+frame
+clip: 80 0 80 80
+offset: 40 40
+duration: 0.1
+index: 1
+frame
+clip: 160 0 80 80
+offset: 40 40
+duration: 0.1
+index: 2
+frame
+clip: 0 80 80 80
+offset: 40 40
+duration: 0.1
+index: 3
+frame
+clip: 80 80 80 80
+offset: 40 40
+duration: 0.1
+index: 4
+frame
+clip: 160 80 80 80
+offset: 40 40
+duration: 0.1
+index: 5
+frame
+clip: 0 160 80 80
+offset: 40 40
+duration: 0.1
+index: 6
+frame
+clip: 80 160 80 80
+offset: 40 40
+duration: 0.1
+index: 7
+frame
+clip: 160 160 80 80
+offset: 40 40
+duration: 0.1
+index: 8
+frame
+clip: 0 240 80 80
+offset: 40 40
+duration: 0.1
+index: 9
+frame
+clip: 80 240 80 80
+offset: 40 40
+duration: 0.1
+index: 10
+frame
+clip: 160 240 80 80
+offset: 40 40
+duration: 0.1
+index: 11
 smash
 frames: 1
 frame
-clip: 0 200 100 100
-offset: 50 50
-duration: 10.0
+clip: 0 160 80 80
+offset: 40 40
+duration: 0.1
 index: 0

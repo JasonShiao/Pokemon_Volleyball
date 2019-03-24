@@ -117,7 +117,7 @@ int main() {
 
     Volleyball *volleyball = new Volleyball(volleyballAnimSet, 150, 50);
 
-    Wall *middle_net = new Wall(NULL, Globals::ScreenWidth/2 - 4, Globals::ScreenHeight - 150, 8, 150);
+    Wall *middle_net = new Wall(NULL, Globals::ScreenWidth/2 - 2, Globals::ScreenHeight - 150, 4, 150);
 
 
     Entity::entities.push_back(voltorb_1);
@@ -210,7 +210,7 @@ int main() {
                     //screen_changed = false;
                 //}
 
-                SDL_Delay(5); // Delay n ms
+                //SDL_Delay(5); // Delay n ms
 
 
                 // Determine whether someone wins the point and break the while loop

@@ -16,7 +16,7 @@ public:
 
     static const int WALL_STATE_NORNAL;
 
-    SDL_Rect region;
+    float w, h;  // collision region w, h
 
 
     Wall(AnimationSet *animSet, int x, int y, int w, int h);
@@ -30,6 +30,13 @@ public:
     void changeAnimation(int newState, bool resetFrameToBeginning);
     void updateAnimation();
 
+    float getBoundary_Left();
+    float getBoundary_Right();
+    float getBoundary_Top();
+    float getBoundary_Bottom();
+
+    float getCenter_x();
+    float getCenter_y();
 };
 
 

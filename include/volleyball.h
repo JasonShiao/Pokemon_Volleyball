@@ -19,6 +19,10 @@ public:
     SDL_Point boundary_max, boundary_min;
     float default_x, default_y; // reset (default) position
 
+    float last_x, last_y; 
+
+    float radius;
+
     Entity* last_collision;
 
 

@@ -47,6 +47,11 @@ const float Volleyball::GRAVITY = 300;
     x = default_x;
     y = default_y;
 
+    last_x = x;
+    last_y = y;
+
+    radius = 55;
+
  	changeAnimation(VOLLEYBALL_STATE_NORMAL, true);
 
  }
@@ -113,25 +118,37 @@ void Volleyball::updateMovement() {
         if((*entity)->type.compare("wall") == 0)
         {
             // top
-            if( ((Wall*)(*entity))->region.y - y >= 0 && ((Wall*)(*entity))->region.y - y <= 50
-                && ((Wall*)(*entity))->region.x - x <= 50 && x - (((Wall*)(*entity))->region.x + ((Wall*)(*entity))->region.w) <= 50  ) {
+            if( ((Wall*)(*entity))->getBoundary_Top() >= last_y + radius
+                    && ((Wall*)(*entity))->getBoundary_Top() < y + radius
+                    && ((Wall*)(*entity))->getBoundary_Left() <= x + radius
+                    && ((Wall*)(*entity))->getBoundary_Right() >= x - radius ) {
                 if(moveSpeed_y > 0)
                     moveSpeed_y = -moveSpeed_y;
+                //y = ((Wall*)(*entity))->getBoundary_Top() - radius;
             // left
-            } else if( (((Wall*)(*entity))->region.y + ((Wall*)(*entity))->region.h) - y >= 0 && y - ((Wall*)(*entity))->region.y >= 0
-                && ((Wall*)(*entity))->region.x - x <= 50 && ((Wall*)(*entity))->region.x - x >= 0  ) {
+            } else if( last_x + radius <= ((Wall*)(*entity))->getBoundary_Left()
+                    && ((Wall*)(*entity))->getBoundary_Bottom() >= y - radius
+                    && ((Wall*)(*entity))->getBoundary_Top() <= y + radius
+                    && ((Wall*)(*entity))->getBoundary_Left() < x + radius ) {
                 if(moveSpeed_x > 0)
                     moveSpeed_x = -moveSpeed_x;
+                //x = ((Wall*)(*entity))->getBoundary_Left() - radius;
             // right
-             }else if( (((Wall*)(*entity))->region.y + ((Wall*)(*entity))->region.h) - y >= 0 && y - ((Wall*)(*entity))->region.y >= 0
-                && x - (((Wall*)(*entity))->region.x + ((Wall*)(*entity))->region.w) <= 50 && x - (((Wall*)(*entity))->region.x + ((Wall*)(*entity))->region.w) >= 0 ) {
+            }else if( last_x - radius >= ((Wall*)(*entity))->getBoundary_Right()
+                    && ((Wall*)(*entity))->getBoundary_Bottom() >= y - radius
+                    && ((Wall*)(*entity))->getBoundary_Top() <= y + radius
+                    && x - radius < ((Wall*)(*entity))->getBoundary_Right() ) {
                 if(moveSpeed_x < 0)
                     moveSpeed_x = -moveSpeed_x;
+                //x = ((Wall*)(*entity))->getBoundary_Right() + radius;
             // bottom (no need for the middle net)
-            } else if( y - (((Wall*)(*entity))->region.y + ((Wall*)(*entity))->region.w) <= 50 && y - (((Wall*)(*entity))->region.y + ((Wall*)(*entity))->region.w) >= 0
-                && ((Wall*)(*entity))->region.x - x <= 50 && x - (((Wall*)(*entity))->region.x + ((Wall*)(*entity))->region.w) <= 50  ) {
+            } else if( last_y - radius >= ((Wall*)(*entity))->getBoundary_Bottom()
+                    && y - radius < ((Wall*)(*entity))->getBoundary_Bottom()
+                    && ((Wall*)(*entity))->getBoundary_Left() <= x + radius
+                    && ((Wall*)(*entity))->getBoundary_Right() >= x - radius ) {
                 if(moveSpeed_y < 0)
                     moveSpeed_y = -moveSpeed_y;
+                //y = ((Wall*)(*entity))->getBoundary_Bottom() + radius;
             } else
                 ;// do nothing
         }
@@ -176,6 +193,9 @@ void Volleyball::move(){
     // no inertial motion for voltorb
 
     // jumping and gravity: parabola motion
+    last_x = x;
+    last_y = y;
+
     y += (2*moveSpeed_y + Volleyball::GRAVITY * TimeController::timeController.dT) * TimeController::timeController.dT / 2;
     x += (2*moveSpeed_x + Volleyball::GRAVITY * TimeController::timeController.dT) * TimeController::timeController.dT / 2;
 

@@ -22,10 +22,10 @@ Wall::Wall(AnimationSet *animSet, int x, int y, int w, int h){
 	moveSpeed_x = 0; moveSpeed_y = 0;
 	moveSpeedMax = 0;
 
-    region.x = x;
-    region.y = y;
-    region.w = w;
-    region.h = h;
+	this->x = x;
+	this->y = y;
+    this->w = w;
+	this->h = h;
 
 	//changeAnimation(WALL_STATE_NORMAL, true);
 
@@ -104,4 +104,38 @@ void Wall::updateAnimation(){ // rolling frames in an animation
 	//	currentFrame = currentAnim->getNextFrame(currentFrame);
 	//	frameTimer = 0;
 	//}
+}
+
+
+float Wall::getBoundary_Left()
+{
+	return x;
+}
+
+
+float Wall::getBoundary_Right()
+{
+	return x + w;
+}
+
+
+float Wall::getBoundary_Top()
+{
+	return y;
+}
+
+
+float Wall::getBoundary_Bottom()
+{
+	return y + h;
+}
+
+float Wall::getCenter_x()
+{
+	return x + w/2;
+}
+
+float Wall::getCenter_y()
+{
+	return y + h/2;
 }
