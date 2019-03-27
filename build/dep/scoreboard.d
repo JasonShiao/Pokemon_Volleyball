@@ -1,4 +1,5 @@
-build/obj/main.o: src/main.cpp include/SDL2/SDL.h include/SDL2/SDL_main.h \
+build/obj/scoreboard.o: src/scoreboard.cpp include/scoreboard.h \
+  include/SDL2/SDL_ttf.h include/SDL2/SDL.h include/SDL2/SDL_main.h \
   include/SDL2/SDL_stdinc.h include/SDL2/SDL_config.h \
   include/SDL2/SDL_platform.h include/SDL2/begin_code.h \
   include/SDL2/close_code.h include/SDL2/SDL_assert.h \
@@ -20,15 +21,17 @@ build/obj/main.o: src/main.cpp include/SDL2/SDL.h include/SDL2/SDL_main.h \
   include/SDL2/SDL_power.h include/SDL2/SDL_render.h \
   include/SDL2/SDL_sensor.h include/SDL2/SDL_shape.h \
   include/SDL2/SDL_system.h include/SDL2/SDL_timer.h \
-  include/SDL2/SDL_version.h include/cleanup.h include/res_path.h \
+  include/SDL2/SDL_version.h include/entity.h include/globals.h \
+  include/randomNumber.h include/timeController.h include/animationSet.h \
+  include/groupBuilder.h include/group.h include/dataGroupType.h \
+  include/groupBox.h include/groupPosition.h include/groupNumber.h \
+  include/groupString.h include/animation.h include/frame.h \
   include/drawing_functions.h include/SDL2/SDL_image.h \
-  include/SDL2/SDL_ttf.h include/SDL2/SDL_mixer.h include/globals.h \
-  include/randomNumber.h include/frame.h include/groupBuilder.h \
-  include/group.h include/dataGroupType.h include/groupBox.h \
-  include/groupPosition.h include/groupNumber.h include/groupString.h \
-  include/animationSet.h include/animation.h include/timeController.h \
-  include/voltorb.h include/entity.h include/volleyball.h include/wall.h \
-  include/scoreboard.h
+  include/res_path.h include/cleanup.h include/voltorb.h
+
+include/scoreboard.h:
+
+include/SDL2/SDL_ttf.h:
 
 include/SDL2/SDL.h:
 
@@ -120,23 +123,15 @@ include/SDL2/SDL_timer.h:
 
 include/SDL2/SDL_version.h:
 
-include/cleanup.h:
-
-include/res_path.h:
-
-include/drawing_functions.h:
-
-include/SDL2/SDL_image.h:
-
-include/SDL2/SDL_ttf.h:
-
-include/SDL2/SDL_mixer.h:
+include/entity.h:
 
 include/globals.h:
 
 include/randomNumber.h:
 
-include/frame.h:
+include/timeController.h:
+
+include/animationSet.h:
 
 include/groupBuilder.h:
 
@@ -152,18 +147,16 @@ include/groupNumber.h:
 
 include/groupString.h:
 
-include/animationSet.h:
-
 include/animation.h:
 
-include/timeController.h:
+include/frame.h:
+
+include/drawing_functions.h:
+
+include/SDL2/SDL_image.h:
+
+include/res_path.h:
+
+include/cleanup.h:
 
 include/voltorb.h:
-
-include/entity.h:
-
-include/volleyball.h:
-
-include/wall.h:
-
-include/scoreboard.h:

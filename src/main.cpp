@@ -13,6 +13,8 @@
 #include "voltorb.h"
 #include "volleyball.h"
 #include "wall.h"
+#include <SDL2/SDL_ttf.h>
+#include "scoreboard.h"
 
 using namespace std;
 
@@ -63,19 +65,20 @@ int main() {
         return 1;
     }
 
-    TTF_Font * score_panel_font = TTF_OpenFont("./res/open_sans/OpenSans-ExtraBold.ttf", 40);
-    if(score_panel_font == NULL)
-    {
-        cout << "Font not opened!" << endl;
-        return 1;
-    }
-
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
         SDL_Quit();
         cout << "Mixer did not initialize" << endl;
         return 1;
     }
 
+
+    /* TTF for scoreboard */
+    /*TTF_Font * scoreboard_font = TTF_OpenFont("./res/open_sans/OpenSans-ExtraBold.ttf", 40);
+    if(scoreboard_font == NULL)
+    {
+        cout << "Font not opened!" << endl;
+        return 1;
+    }*/
 
 
     /***************************************************************************
@@ -119,18 +122,14 @@ int main() {
 
     Wall *middle_net = new Wall(NULL, Globals::ScreenWidth/2 - 2, Globals::ScreenHeight - 150, 4, 150);
 
-
     Entity::entities.push_back(voltorb_1);
     Entity::entities.push_back(voltorb_2);
     Entity::entities.push_back(volleyball);
     Entity::entities.push_back(middle_net);
 
 
-    /*******  Score Panel  *******/
-    SDL_Color score_panel_color = { 240, 100, 100 };
-
-    int texW = 0;
-    int texH = 0;
+    /*******  Scoreboard  *******/
+    Scoreboard* scoreboard = new Scoreboard(Globals::ScreenWidth/2, 30, 30, "./res/open_sans/OpenSans-ExtraBold.ttf");
 
 
 
@@ -169,12 +168,12 @@ int main() {
             // a new point
 
             /* Score Panel */
-            string score_str = to_string(voltorb_2->points) + "   " + to_string(voltorb_1->points);
-            SDL_Surface * score_surface = TTF_RenderText_Solid(score_panel_font, score_str.c_str(), score_panel_color);
-            SDL_Texture * score_texture = SDL_CreateTextureFromSurface(Globals::renderer, score_surface);
-            SDL_QueryTexture(score_texture, NULL, NULL, &texW, &texH);
-            SDL_Rect dstrect = { 280, 0, texW, texH };
-
+            //string score_str = to_string(voltorb_2->points) + "   " + to_string(voltorb_1->points);
+            //SDL_Surface * score_surface = TTF_RenderText_Solid(scoreboard_font, score_str.c_str(), scoreboard_color);
+            //SDL_Texture * score_texture = SDL_CreateTextureFromSurface(Globals::renderer, score_surface);
+            //SDL_QueryTexture(score_texture, NULL, NULL, &texW, &texH);
+            //SDL_Rect dstrect = { 280, 0, texW, texH };
+            scoreboard->update();
 
             while(!quit){ // If a point is finished, break this loop
 
@@ -204,7 +203,8 @@ int main() {
                 voltorb_2->draw();
                 volleyball->draw();
 
-                SDL_RenderCopy(Globals::renderer, score_texture, NULL, &dstrect);
+                //DL_RenderCopy(Globals::renderer, score_texture, NULL, &dstrect);
+                 scoreboard->draw();
 
                 SDL_RenderPresent(Globals::renderer);
                     //screen_changed = false;
@@ -231,19 +231,21 @@ int main() {
             }
 
             /* Clear Score Texture */
-            SDL_DestroyTexture(score_texture);
-            SDL_FreeSurface(score_surface);
+            //SDL_DestroyTexture(score_texture);
+            //SDL_FreeSurface(score_surface);
 
             // Determine whether someone wins the set and break the while loop
             for (list<Voltorb*>::iterator voltorb = Voltorb::voltorbs.begin(); voltorb != Voltorb::voltorbs.end(); voltorb++)
             {
-                cout << "Player " << (*voltorb)->index + 1 << " : " <<  (*voltorb)->points << endl;
+                cout << "Player " << (*voltorb)->index + 1 << " gets " <<  (*voltorb)->points << " points" << " | ";
                 if ((*voltorb)->points >= 15)
                 {
+                    cout << endl;
                     cout << "====== Player " << (*voltorb)->index << " wins! =====" << endl;
                     AnyOneWon = true;
                 }
             }
+            cout << endl;
 
             if(AnyOneWon == true)
                 break;
@@ -262,18 +264,15 @@ int main() {
     for (list<Entity*>::iterator entity = Entity::entities.begin(); entity != Entity::entities.end(); entity++)
     {
         delete *entity;
-        //delete voltorb_1;
-        //delete voltorb_2;
-        //delete volleyball;
-        //delete middle_net;
     }
 
+    delete scoreboard;
 
     cleanup(Globals::renderer);
     cleanup(window);
     cleanup(texture);
 
-    TTF_CloseFont(score_panel_font);
+    //TTF_CloseFont(score_panel_font);
     /***************************************************************************
     *                          END OF USER CODE                               *
     ***************************************************************************/

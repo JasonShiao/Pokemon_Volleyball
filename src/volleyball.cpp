@@ -36,10 +36,12 @@ const float Volleyball::GRAVITY = 300;
  	moveSpeed_x = 0; moveSpeed_y = 0;
  	moveSpeedMax = 400;
 
-    boundary_max.x = Globals::ScreenWidth - 50;
-    boundary_max.y = Globals::ScreenHeight - 50;
-    boundary_min.x = 50;
-    boundary_min.y = 50;
+    radius = 40;
+
+    boundary_max.x = Globals::ScreenWidth - radius;
+    boundary_max.y = Globals::ScreenHeight - radius;
+    boundary_min.x = radius;
+    boundary_min.y = radius;
 
     default_x = init_pos_x;
     default_y = init_pos_y;
@@ -49,8 +51,6 @@ const float Volleyball::GRAVITY = 300;
 
     last_x = x;
     last_y = y;
-
-    radius = 55;
 
  	changeAnimation(VOLLEYBALL_STATE_NORMAL, true);
 
@@ -88,11 +88,11 @@ void Volleyball::updateMovement() {
 
     moveSpeed_y += Volleyball::GRAVITY * TimeController::timeController.dT;
 
- 	if(y >= Globals::ScreenHeight - 50)
+ 	if(y >= Globals::ScreenHeight - radius)
  	{
  		// Land on the ground
- 		y = Globals::ScreenHeight - 50;
-        if(moveSpeed_y <= 50)
+ 		y = Globals::ScreenHeight - radius;
+        if(moveSpeed_y <= radius)
             moveSpeed_y = 0;
         else
  		    moveSpeed_y = -(moveSpeed_y - 50); // 50 is air friction
@@ -157,7 +157,7 @@ void Volleyball::updateMovement() {
         if((*entity)->type.compare("voltorb") == 0)
         {
             //cout << " | an voltorb | " << endl;
-            if(pow((*entity)->x - this->x, 2) + pow((*entity)->y - this->y, 2) <= pow(50, 2) )
+            if(pow((*entity)->x - this->x, 2) + pow((*entity)->y - this->y, 2) <= pow(70, 2) )
             {
                 // If collision just happen right before, ignore this one
                 if(last_collision == (*entity)) {
@@ -258,7 +258,7 @@ void Volleyball::updateCollision() {
 
     // If the last collision leave the volleyball
     if(last_collision != NULL) {
-        if(pow(last_collision->x - this->x, 2) + pow(last_collision->y - this->y, 2) > pow(50, 2)) {
+        if(pow(last_collision->x - this->x, 2) + pow(last_collision->y - this->y, 2) > pow(70, 2)) {
             last_collision = NULL;
         }
     }
