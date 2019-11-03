@@ -20,7 +20,7 @@ Wall::Wall(AnimationSet *animSet, int x, int y, int w, int h){
 	//setup default voltorb values
 
 	moveSpeed_x = 0; moveSpeed_y = 0;
-	moveSpeedMax = 0;
+	moveSpeedMax_x = 0; moveSpeedMax_y = 0;
 
 	this->x = x;
 	this->y = y;

@@ -28,7 +28,8 @@ public:
     //float angle;
     float moveSpeed_x;
     float moveSpeed_y;
-    float moveSpeedMax;
+    float moveSpeedMax_x;
+    float moveSpeedMax_y;
     //float slideAngle; // direction pushed in
     //float slideAmount; // amount of push in the slideAngle
     //float moveLerp = 4;

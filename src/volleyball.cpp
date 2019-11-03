@@ -16,7 +16,7 @@ const string Volleyball::VOLLEYBALL_ANIM_SMASH = "smash";
 const int Volleyball::VOLLEYBALL_STATE_NORMAL = 0;
 const int Volleyball::VOLLEYBALL_STATE_SMASH = 1;
 
-const float Volleyball::GRAVITY = 300;
+const float Volleyball::GRAVITY = 450;
 
 
 /****************************************************************
@@ -30,11 +30,14 @@ const float Volleyball::GRAVITY = 300;
     this->solid = true;
 	this->active = true;
     last_collision = NULL;
+    this->smash = false;
+    this->state = VOLLEYBALL_STATE_NORMAL;
 
  	//setup default voltorb values
 
  	moveSpeed_x = 0; moveSpeed_y = 0;
- 	moveSpeedMax = 400;
+ 	moveSpeedMax_x = 450;
+    moveSpeedMax_y = 500;
 
     radius = 40;
 
@@ -88,14 +91,14 @@ void Volleyball::updateMovement() {
 
     moveSpeed_y += Volleyball::GRAVITY * TimeController::timeController.dT;
 
- 	if(y >= Globals::ScreenHeight - radius)
+ 	if(y >= Globals::ScreenHeight - radius) // exceed the ground level
  	{
  		// Land on the ground
  		y = Globals::ScreenHeight - radius;
-        if(moveSpeed_y <= radius)
+        if(moveSpeed_y <= 30) // if speed y not high enough stop bouncing
             moveSpeed_y = 0;
         else
- 		    moveSpeed_y = -(moveSpeed_y - 50); // 50 is air friction
+ 		    moveSpeed_y = -0.9*(moveSpeed_y); // collision loss 10%
  	}
 
  	// Boundary limit
@@ -156,34 +159,8 @@ void Volleyball::updateMovement() {
         // Collide with Voltorb (player)
         if((*entity)->type.compare("voltorb") == 0)
         {
-            //cout << " | an voltorb | " << endl;
-            if(pow((*entity)->x - this->x, 2) + pow((*entity)->y - this->y, 2) <= pow(70, 2) )
-            {
-                // If collision just happen right before, ignore this one
-                if(last_collision == (*entity)) {
-                    // do nothing
-                } else {
-                    // Collide
-                    last_collision = (*entity); // change the last collision object
-                    if ( ((*entity)->x - this->x) <= 1 && ((*entity)->x - this->x) >= -1) {
-                        this->moveSpeed_x = 0;
-                    } else {
-                        this->moveSpeed_x = (this->moveSpeedMax)
-                                            * ( this->x - (*entity)->x)
-                                            / sqrt(pow((*entity)->x - this->x, 2) + pow((*entity)->y - this->y, 2));
-                    }
-                    if ( ((*entity)->y - this->y) <= 1 && ((*entity)->y - this->y) >= -1 ) {
-                        this->moveSpeed_y = 0;
-                    } else {
-                        this->moveSpeed_y = (this->moveSpeedMax)
-                                            * ( this->y - (*entity)->y)
-                                            / sqrt(pow((*entity)->x - this->x, 2) + pow((*entity)->y - this->y, 2));
-                        if ( ((Voltorb*)(*entity))->onTheGround == false ) {
-                            //
-                        }
-                    }
-                }
-            }
+            if( ((Voltorb*)(*entity))->checkCollision(this) == true)
+                ((Voltorb*)(*entity))->hitTheBall(this);
         }
     }
 
@@ -253,6 +230,14 @@ void Volleyball::updateAnimation(){ // rolling frames in an animation
 /****************************************************************
  *              Specific Method for this Class                  *
  ****************************************************************/
+int Volleyball::getState() {
+    return state;
+}
+
+void Volleyball::setState(int newState) {
+    state = newState;
+    changeAnimation(state, true);
+}
 
 void Volleyball::updateCollision() {
 
@@ -273,6 +258,8 @@ void Volleyball::reset()
 
 	x = this->default_x;
 	y = this->default_y;
+
+    setState(VOLLEYBALL_STATE_NORMAL);
 
     last_collision = NULL;
 

@@ -4,8 +4,8 @@ const float Globals::PI = 3.14159;
 
 bool Globals::debugging = true;
 
-int Globals::ScreenWidth = 640;
-int Globals::ScreenHeight = 352;
+int Globals::ScreenWidth = 1032;
+int Globals::ScreenHeight = 480;
 int Globals::ScreenScale = 1;
 SDL_Renderer* Globals::renderer = NULL;
 

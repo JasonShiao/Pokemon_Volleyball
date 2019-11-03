@@ -1,5 +1,9 @@
 # Unused file
 .DS_Store
+/build/app/mygame
+/build/dep
+/build/obj
+/res
 
 # Not ready files
 game.h

@@ -19,9 +19,11 @@ public:
     SDL_Point boundary_max, boundary_min;
     float default_x, default_y; // reset (default) position
 
-    float last_x, last_y; 
+    float last_x, last_y;
 
     float radius;
+
+    bool smash; // smash shot or normal shot
 
     Entity* last_collision;
 
@@ -34,6 +36,9 @@ public:
     void update();
     void move();
     void updateMovement();
+
+    void setState(int newState);
+    int getState();
 
     void changeAnimation(int newState, bool resetFrameToBeginning);
     void updateAnimation();

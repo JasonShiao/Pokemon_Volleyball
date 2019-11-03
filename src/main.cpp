@@ -86,7 +86,7 @@ int main() {
     ***************************************************************************/
     string resPath = getResourcePath();
     // Background image
-    SDL_Texture* texture = loadTexture(resPath + "map5.png", Globals::renderer);
+    SDL_Texture* texture = loadTexture(resPath + "map6.png", Globals::renderer);
 
 
 	list<DataGroupType> dataGroupTypes;
@@ -120,7 +120,7 @@ int main() {
 
     Volleyball *volleyball = new Volleyball(volleyballAnimSet, 150, 50);
 
-    Wall *middle_net = new Wall(NULL, Globals::ScreenWidth/2 - 2, Globals::ScreenHeight - 150, 4, 150);
+    Wall *middle_net = new Wall(NULL, Globals::ScreenWidth/2 - 1, Globals::ScreenHeight - 150, 2, 140);
 
     Entity::entities.push_back(voltorb_1);
     Entity::entities.push_back(voltorb_2);
@@ -158,7 +158,9 @@ int main() {
             //cout << "Check point 0" << endl;
 
             voltorb_1->resetPosition();
+            voltorb_1->resetState();
             voltorb_2->resetPosition();
+            voltorb_2->resetState();
             volleyball->reset();
 
             SDL_Delay(1500); // Delay 2000 ms

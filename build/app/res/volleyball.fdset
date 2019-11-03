@@ -1,71 +1,86 @@
-pokemon_ball_3.png
+pokemon_ball_6.png
 animations: 2
 normal
 frames: 12
 frame
-clip: 0 0 80 80
-offset: 40 40
+clip: 0 0 95 95
+offset: 47 47
 duration: 0.1
 index: 0
 frame
-clip: 80 0 80 80
-offset: 40 40
+clip: 95 0 95 95
+offset: 47 47
 duration: 0.1
 index: 1
 frame
-clip: 160 0 80 80
-offset: 40 40
+clip: 190 0 95 95
+offset: 47 47
 duration: 0.1
 index: 2
 frame
-clip: 0 80 80 80
-offset: 40 40
+clip: 0 95 95 95
+offset: 47 47
 duration: 0.1
 index: 3
 frame
-clip: 80 80 80 80
-offset: 40 40
+clip: 95 95 95 95
+offset: 47 47
 duration: 0.1
 index: 4
 frame
-clip: 160 80 80 80
-offset: 40 40
+clip: 190 95 95 95
+offset: 47 47
 duration: 0.1
 index: 5
 frame
-clip: 0 160 80 80
-offset: 40 40
+clip: 0 190 95 95
+offset: 47 47
 duration: 0.1
 index: 6
 frame
-clip: 80 160 80 80
-offset: 40 40
+clip: 95 190 95 95
+offset: 47 47
 duration: 0.1
 index: 7
 frame
-clip: 160 160 80 80
-offset: 40 40
+clip: 190 190 95 95
+offset: 47 47
 duration: 0.1
 index: 8
 frame
-clip: 0 240 80 80
-offset: 40 40
+clip: 0 285 95 95
+offset: 47 47
 duration: 0.1
 index: 9
 frame
-clip: 80 240 80 80
-offset: 40 40
+clip: 95 285 95 95
+offset: 47 47
 duration: 0.1
 index: 10
 frame
-clip: 160 240 80 80
-offset: 40 40
+clip: 190 285 95 95
+offset: 47 47
 duration: 0.1
 index: 11
 smash
-frames: 1
+frames: 4
 frame
-clip: 0 160 80 80
-offset: 40 40
+clip: 0 380 95 95
+offset: 47 47
 duration: 0.1
 index: 0
+frame
+clip: 95 380 95 95
+offset: 47 47
+duration: 0.1
+index: 1
+frame
+clip: 190 380 95 95
+offset: 47 47
+duration: 0.1
+index: 2
+frame
+clip: 95 380 95 95
+offset: 47 47
+duration: 0.1
+index: 3

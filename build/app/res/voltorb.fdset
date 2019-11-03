@@ -132,6 +132,50 @@ clip: 300 300 100 100
 offset: 50 48
 duration: 0.4
 index: 3
+angry_right
+frames: 4
+frame
+clip: 0 500 100 100
+offset: 50 50
+duration: 0.2
+index: 0
+frame
+clip: 100 500 100 100
+offset: 50 50
+duration: 0.2
+index: 1
+frame
+clip: 200 500 100 100
+offset: 50 50
+duration: 0.2
+index: 2
+frame
+clip: 300 500 100 100
+offset: 50 50
+duration: 0.2
+index: 3
+angry_left
+frames: 4
+frame
+clip: 0 400 100 100
+offset: 50 50
+duration: 0.2
+index: 0
+frame
+clip: 100 400 100 100
+offset: 50 50
+duration: 0.2
+index: 1
+frame
+clip: 200 400 100 100
+offset: 50 50
+duration: 0.2
+index: 2
+frame
+clip: 300 400 100 100
+offset: 50 50
+duration: 0.2
+index: 3
 win
 frames: 1
 frame

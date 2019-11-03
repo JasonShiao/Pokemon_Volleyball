@@ -17,7 +17,8 @@ Entity::Entity()
 	//bool moving;
     moveSpeed_x = 0;
     moveSpeed_y = 0;
-    moveSpeedMax = 0;
+    moveSpeedMax_x = 0;
+	moveSpeedMax_y = 0;
 
 	//SDL_Rect collisionBox;
 	//SDL_Rect lastCollisionBox; // where our collisionbox was last
