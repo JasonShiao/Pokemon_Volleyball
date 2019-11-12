@@ -17,3 +17,4 @@ LEFT: ARROW LEFT
 RIGHT: ARROW RIGHT
 SMASH: Enter
 ```
+![ScreenShot](./ScreenShot.png)
